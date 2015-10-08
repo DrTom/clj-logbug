@@ -1,4 +1,4 @@
-# logbug - Cross-cutting utils for logging and debugging in Clojure
+# clj-logbug - Cross-cutting utilities for logging and debugging in Clojure
 
 
 ## Usage
@@ -59,8 +59,19 @@ The use of `require` will "remove" existing wrappers. The last arguments are
 stored within the `debug` ns and thus they survive `require` etc.
 
 
+
 ## License
 
-Copyright © 2015 Thomas Schank
+Copyright © 2015 Thomas Schank and contributors.
 
-Distributed under the APGL.
+  clj-logbug may be used under the terms of either the
+
+ * GNU Lesser General Public License (LGPL) v3
+   https://www.gnu.org/licenses/lgpl
+
+or the
+
+ * Eclipse Public License (EPL)
+   http://www.eclipse.org/org/documents/epl-v10.php
+
+
