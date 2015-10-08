@@ -5,19 +5,16 @@
     [clojure.tools.logging :as logging]
     ))
 
-(defn wrap-handler-with-logging
-  "Wraps a handler with logging of
-  request and response to the given namespace."
-  ([handler ns]
-   (wrap-handler-with-logging handler ns :debug))
-  ([handler ns loglevel]
-   (fn [request]
-     (let [logbug-level (or (:logbug-level request) 0 )]
-       (logging/log ns loglevel nil {:logbug-level logbug-level
-                                     :request request})
-       (let [response (handler
-                        (assoc request :logbug-level (+ logbug-level 1)))]
-         (logging/log ns loglevel nil {:logbug-level logbug-level
-                                       :response response})
-         response)))))
+(defmacro wrap-handler-with-logging
+  "Wraps a ring handler. Logs request and response with level
+  debug in the namespace where this macro is used from."
+  [handler]
+  `(fn [request#]
+     (let [logbug-level# (or (:logbug-level request#) 0 )]
+       (logging/log :debug {:logbug-level logbug-level# :request request#})
+       (let [response# (~handler (assoc request#
+                                        :logbug-level (inc logbug-level#)))]
+         (logging/log :debug {:logbug-level logbug-level# :response response#})
+         response#))))
+
 
