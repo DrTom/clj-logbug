@@ -1,6 +1,6 @@
 ; Copyright © 2013 - 2015 Thomas Schank <DrTom@schank.ch>
 
-(ns drtom.logbug.debug
+(ns logbug.debug
   (:require
     [clj-logging-config.log4j :as logging-config]
     [clojure.test]

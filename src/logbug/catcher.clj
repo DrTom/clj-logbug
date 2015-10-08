@@ -1,10 +1,10 @@
 ; Copyright © 2013 - 2015 Thomas Schank <DrTom@schank.ch>
 
-(ns drtom.logbug.catcher
-  (:require 
+(ns logbug.catcher
+  (:require
     [clojure.stacktrace :as stacktrace]
     [clojure.tools.logging :as clj-logging]
-    [drtom.logbug.thrown] 
+    [logbug.thrown]
     ))
 
 ;##############################################################################
@@ -13,7 +13,7 @@
   `(try
      ~@expressions
      (catch Throwable e#
-       (clj-logging/log ~level (drtom.logbug.thrown/stringify e#))
+       (clj-logging/log ~level (logbug.thrown/stringify e#))
        (throw e#))))
 
 (defmacro wrap-with-log-debug [& expressions]
@@ -35,7 +35,7 @@
   `(try
      ~@expressions
      (catch Throwable e#
-       (clj-logging/log ~level (drtom.logbug.thrown/stringify e#))
+       (clj-logging/log ~level (logbug.thrown/stringify e#))
        nil)))
 
 (defmacro wrap-with-suppress-and-log-debug [& expressions]

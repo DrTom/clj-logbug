@@ -43,7 +43,7 @@ Example disable again:
 
 Example require the debug namespace:
 
-    (require ['drtom.logbug.debug :as 'debug])
+    (require ['logbug.debug :as 'debug])
 
 Example wrap all vars in the current namespace:
 

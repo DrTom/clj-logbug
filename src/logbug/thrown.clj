@@ -1,6 +1,6 @@
 ; Copyright © 2013 - 2015 Thomas Schank <DrTom@schank.ch>
 
-(ns drtom.logbug.thrown
+(ns logbug.thrown
   (:require
     [clojure.stacktrace :as stacktrace]
     [clojure.tools.logging :as logging]
@@ -30,7 +30,7 @@
 (defn reset-ns-filter-regex [regex]
   (def ^:dynamic *ns-filter-regex* regex))
 
-;(reset-ns-filter-regex #".*drtom.*logbug.*")
+;(reset-ns-filter-regex #".**logbug.*")
 
 (defn filter-trace-string-seq [ex-seq filter-regex]
   (filter
