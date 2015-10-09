@@ -17,4 +17,6 @@
          (logging/log :debug {:logbug-level logbug-level# :response response#})
          response#))))
 
-
+(defmacro log-> [& handlers]
+  `(-> ~@(interleave handlers
+                     (repeat 'logbug.ring/wrap-handler-with-logging))))
