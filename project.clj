@@ -1,4 +1,4 @@
-(defproject logbug "2.0.0-beta.4"
+(defproject logbug "2.0.0-beta.5"
   :description "Cross-cutting utilities for logging and debugging in Clojure."
   :url "https://github.com/drtom/clj-logbug"
   :license {:name "Dual: EPL and LGPL"}
@@ -8,5 +8,3 @@
                  [clj-logging-config "1.9.12"]
                  [robert/hooke "1.3.0"]
                  ])
-
-

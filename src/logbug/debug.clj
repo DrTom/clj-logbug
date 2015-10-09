@@ -81,7 +81,10 @@
 
 ;### identity-with-logging ns #################################################
 
-(defn identity-with-logging [ns x]
-  (logging/log ns :debug nil x)
-  x)
-
+(defmacro identity-with-logging
+  ([x]
+   `(identity-with-logging ~*ns* ~x))
+  ([ns x]
+   `(let [result# ~x]
+      (logging/log ~ns :debug nil result#)
+      result#)))
