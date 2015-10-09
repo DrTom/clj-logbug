@@ -59,6 +59,11 @@ The use of `require` will "remove" existing wrappers. The last arguments are
 stored within the `debug` ns and thus they survive `require` etc.
 
 
+## Contributors
+
+* Thomas Schank, https://github.com/DrTom
+* Matúš Kmiť, https://github.com/nimaai
+
 
 ## License
 
