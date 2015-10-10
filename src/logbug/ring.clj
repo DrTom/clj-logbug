@@ -1,7 +1,6 @@
 ; Copyright © 2013 - 2015 Thomas Schank <DrTom@schank.ch> and contributers
 
 (ns logbug.ring
-  (:refer-clojure :exclude [->])
   (:require
     [logbug.thrown]
     [clojure.tools.logging :as logging]
@@ -59,6 +58,5 @@
 
 ;### threading macro ##########################################################
 
-(defmacro -> [& handlers]
-  `(clojure.core/-> ~@(interleave handlers
-                     (repeat 'logbug.ring/wrap-handler-with-logging))))
+(defmacro o-> [interleaved & handlers]
+  `(-> ~@(interleave handlers (repeat interleaved))))
