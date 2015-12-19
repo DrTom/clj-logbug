@@ -51,5 +51,15 @@
   `(wrap-with-suppress-and-log :error ~@expressions))
 
 
+;##############################################################################
+
+(defmacro catch* [level return-expr & expressions]
+  `(try
+     ~@expressions
+     (catch Throwable e#
+       (logging/log ~level (logbug.thrown/stringify e#))
+       (if (clojure.test/function? ~return-expr)
+         (apply ~return-expr [e#])
+         ~return-expr))))
 
 

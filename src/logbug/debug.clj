@@ -88,3 +88,16 @@
    `(let [result# ~x]
       (logging/log ~ns :debug nil result#)
       result#)))
+
+
+;### interleave ###############################################################
+
+(defmacro ÷>
+  "Like -> but interleaves 'inter' between every form."
+  [inter & forms]
+  `(-> ~@(interleave forms (repeat inter))))
+
+(defmacro ÷>>
+  "Like ->> but interleaves 'inter' between every form."
+  [inter & forms]
+  `(->> ~@(interleave forms (repeat inter))))
