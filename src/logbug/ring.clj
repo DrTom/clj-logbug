@@ -52,8 +52,14 @@
   "Convenience macro which calls wrap-handler-with-logging*.
   The macro ensures that the current namespace is used from
   where this macro is used."
-  [handler]
-  `(wrap-handler-with-logging* ~handler ~*ns* :debug))
+  ([handler]
+   `(wrap-handler-with-logging* ~handler ~*ns* :debug))
+  ([handler loglevel]
+   `(wrap-handler-with-logging* ~handler ~*ns* ~loglevel))
+  )
+
+
+
 
 
 ;### threading macro ##########################################################
