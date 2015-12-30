@@ -3,63 +3,77 @@
 (ns logbug.catcher
   (:require
     [clojure.stacktrace :as stacktrace]
-    [clojure.tools.logging :as clj-logging]
+    [clojure.tools.logging :as logging]
     [logbug.thrown]
+    [clojure.set :refer [difference]]
     ))
 
 ;##############################################################################
 
-(defmacro wrap-with-log [level & expressions]
-  `(try
-     ~@expressions
-     (catch Throwable e#
-       (clj-logging/log ~level (logbug.thrown/stringify e#))
-       (throw e#))))
+(def with-logging-default-opts
+  {:level :warn
+   :throwable Throwable
+   :message-fn #'logbug.thrown/stringify
+   })
 
-(defmacro wrap-with-log-debug [& expressions]
-  `(wrap-with-log :debug ~@expressions))
+(defmacro with-logging
+  "Catches a throwable (default java.lang.Throwable) thrown in expressions,
+  logs it (default level :warn, default message formatter
+  logbug.thrown/stringify ) and throws it again."
+  [opts & expressions]
 
-(defmacro wrap-with-log-info [& expressions]
-  `(wrap-with-log :info ~@expressions))
-
-(defmacro wrap-with-log-warn [& expressions]
-  `(wrap-with-log :warn ~@expressions))
-
-(defmacro wrap-with-log-error [& expressions]
-  `(wrap-with-log :error ~@expressions))
+  (assert
+    (empty?
+      (difference (-> opts keys set)
+                  (-> with-logging-default-opts keys set)))
+    "Options must only contain the same keys as with-logging-default-opts")
 
 
-;##############################################################################
-
-(defmacro wrap-with-suppress-and-log [level & expressions]
-  `(try
-     ~@expressions
-     (catch Throwable e#
-       (clj-logging/log ~level (logbug.thrown/stringify e#))
-       nil)))
-
-(defmacro wrap-with-suppress-and-log-debug [& expressions]
-  `(wrap-with-suppress-and-log :debug ~@expressions))
-
-(defmacro wrap-with-suppress-and-log-info [& expressions]
-  `(wrap-with-suppress-and-log :info ~@expressions))
-
-(defmacro wrap-with-suppress-and-log-warn [& expressions]
-  `(wrap-with-suppress-and-log :warn ~@expressions))
-
-(defmacro wrap-with-suppress-and-log-error [& expressions]
-  `(wrap-with-suppress-and-log :error ~@expressions))
+  (let [opts (merge with-logging-default-opts opts)
+        {level :level
+         throwable :throwable
+         message-fn :message-fn} opts]
+    `(try
+       ~@expressions
+       (catch ~throwable e#
+         (logging/log ~*ns* ~level nil (apply ~message-fn [e#]))
+         (throw e#)))))
 
 
 ;##############################################################################
 
-(defmacro catch* [level return-expr & expressions]
-  `(try
-     ~@expressions
-     (catch Throwable e#
-       (logging/log ~level (logbug.thrown/stringify e#))
-       (if (clojure.test/function? ~return-expr)
-         (apply ~return-expr [e#])
-         ~return-expr))))
+
+(def snatch-default-options
+  {:level :warn
+   :throwable Exception
+   :return-expr nil
+   :return-fn nil
+   })
+
+(defmacro snatch
+  [opts & expressions]
+  (keys opts)
+
+  (assert
+    (empty?
+      (difference (-> opts keys set)
+                  (-> snatch-default-options keys set)))
+    "Options must only contain the same keys as snatch-default-options.")
+
+  (assert
+    (not (and (:return-expr opts) (:return-fn opts)))
+    "Options may not contain values for :return-fn and :return-expr at the same time.")
 
 
+  (let [opts (merge snatch-default-options opts)
+        {level :level
+         throwable :throwable
+         return-fn :return-fn
+         return-expr :return-expr} opts ]
+    `(try
+       ~@expressions
+       (catch ~throwable e#
+         (logging/log ~level (logbug.thrown/stringify e#))
+         (if ~return-fn
+           (apply ~return-fn [e#])
+           ~return-expr)))))

@@ -9,9 +9,6 @@
     ))
 
 
-(logging-config/set-logger! :level :debug)
-;(logging-config/set-logger! :level :info)
-
 ;### Log arguments and result #################################################
 
 (defn wrap-with-log-debug [target-var]
@@ -97,19 +94,12 @@
   [inter & forms]
   `(-> ~@(interleave forms (repeat inter))))
 
-(defmacro O>
-  "Like -> and ÷> but drops 'inter' and threads the remaining forms."
-  [inter & forms]
-  `(-> forms ))
-
 (defmacro ÷>>
   "Like ->> but interleaves 'inter' between every form."
   [inter & forms]
   `(->> ~@(interleave forms (repeat inter))))
 
-(defmacro O>>
-  "Like ->> and ÷>> but drops 'inter' and threads the remaining forms."
-  [inter & forms]
-  `(->> forms))
 
-
+;###############################################################################
+;(logging-config/set-logger! :level :debug)
+;(logging-config/set-logger! :level :info)
