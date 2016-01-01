@@ -52,7 +52,6 @@
 
 (defmacro snatch
   [opts & expressions]
-  (keys opts)
 
   (assert
     (empty?

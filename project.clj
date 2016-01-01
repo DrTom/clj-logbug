@@ -1,4 +1,4 @@
-(defproject logbug "3.0.0"
+(defproject logbug "3.0.1"
   :description "Cross-cutting utilities for logging and debugging in Clojure."
   :url "https://github.com/drtom/clj-logbug"
   :license {:name "Dual: EPL and LGPL"}
