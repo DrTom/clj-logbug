@@ -80,12 +80,20 @@
 
 (defmacro identity-with-logging
   ([x]
-   `(identity-with-logging ~*ns* ~x))
+   `(identity-with-logging *ns* ~x))
   ([ns x]
-   `(let [result# ~x]
-      (logging/log ~ns :debug nil (if (seq? result#) (doall (seq result#)) result#))
-      result#)))
+   `(with-logging ~ns identity ~x)))
 
+;### with-logging ns ##########################################################
+
+(defmacro with-logging
+  ([func x]
+   `(with-logging ~*ns* ~func ~x))
+  ([ns func x]
+   `(let [result# ~x
+          func-result# (~func result#)]
+      (logging/log ~ns :debug nil func-result#)
+      result#)))
 
 ;### interleave ###############################################################
 
