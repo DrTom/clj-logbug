@@ -89,12 +89,12 @@
 
 ;### interleave ###############################################################
 
-(defmacro ÷>
+(defmacro I>
   "Like -> but interleaves 'inter' between every form."
   [inter & forms]
   `(-> ~@(interleave forms (repeat inter))))
 
-(defmacro ÷>>
+(defmacro I>>
   "Like ->> but interleaves 'inter' between every form."
   [inter & forms]
   `(->> ~@(interleave forms (repeat inter))))
