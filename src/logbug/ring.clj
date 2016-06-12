@@ -1,4 +1,4 @@
-; Copyright © 2013 - 2015 Thomas Schank <DrTom@schank.ch> and contributers
+; Copyright © 2013 - 2016 Dr. Thomas Schank <Thomas.Schank@AlgoCon.ch>
 
 (ns logbug.ring
   (:require

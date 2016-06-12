@@ -1,4 +1,4 @@
-; Copyright © 2013 - 2015 Thomas Schank <DrTom@schank.ch>
+; Copyright © 2013 - 2016 Dr. Thomas Schank <Thomas.Schank@AlgoCon.ch>
 
 (ns logbug.debug
   (:require
@@ -83,7 +83,7 @@
    `(identity-with-logging ~*ns* ~x))
   ([ns x]
    `(let [result# ~x]
-      (logging/log ~ns :debug nil result#)
+      (logging/log ~ns :debug nil (if (seq? result#) (doall (seq result#)) result#))
       result#)))
 
 
