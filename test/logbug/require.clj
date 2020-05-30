@@ -1,7 +1,6 @@
-(ns logbug.test.require
+(ns logbug.require
   (:require
     [clojure.test :refer :all]
-
     [logbug.catcher]
     [logbug.debug]
     [logbug.ring]
@@ -10,5 +9,3 @@
 
 (deftest require-namespaces
   (is true))
-
-

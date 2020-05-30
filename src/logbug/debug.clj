@@ -1,8 +1,7 @@
-; Copyright © 2013 - 2016 Dr. Thomas Schank <Thomas.Schank@AlgoCon.ch>
+; Copyright © 2013 - 2020 Dr. Thomas Schank <Thomas.Schank@AlgoCon.ch>
 
 (ns logbug.debug
   (:require
-    [clj-logging-config.log4j :as logging-config]
     [clojure.test]
     [clojure.tools.logging :as logging]
     [robert.hooke :as hooke]
@@ -66,7 +65,6 @@
           (vals (ns-interns ns))))
 
 (defn debug-ns [ns]
-  (logging-config/set-logger! (str ns) :level :debug)
   (doseq [wrappable (ns-wrappables ns)]
     (wrap-with-log-debug wrappable)
     (wrap-with-remember-last-argument wrappable)))

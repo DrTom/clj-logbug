@@ -1,10 +1,10 @@
-; Copyright © 2013 - 2016 Dr. Thomas Schank <Thomas.Schank@AlgoCon.ch>
+; Copyright © 2013 - 2020 Dr. Thomas Schank <Thomas.Schank@AlgoCon.ch>
 
 (ns logbug.catcher
   (:require
     [clojure.stacktrace :as stacktrace]
     [clojure.tools.logging :as logging]
-    [logbug.thrown]
+    [logbug.thrown :as thrown]
     [clojure.set :refer [difference]]
     ))
 
@@ -13,7 +13,7 @@
 (def with-logging-default-opts
   {:level :warn
    :throwable Throwable
-   :message-fn #'logbug.thrown/stringify
+   :message-fn #'thrown/stringify
    })
 
 (defmacro with-logging
@@ -72,7 +72,7 @@
     `(try
        ~@expressions
        (catch ~throwable e#
-         (logging/log ~level (logbug.thrown/stringify e#))
+         (logging/log ~level (thrown/stringify e#))
          (if ~return-fn
            (apply ~return-fn [e#])
            ~return-expr)))))

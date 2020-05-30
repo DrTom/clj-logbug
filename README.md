@@ -1,6 +1,10 @@
 # clj-logbug - Cross-cutting utilities for logging and debugging in Clojure
 
 
+## Current Version
+
+See https://clojars.org/logbug.
+
 ## Usage
 
 ### Debug Wrappers
@@ -16,7 +20,7 @@ a var.
 
 Example enable:
 
-    (debug/wrap-with-log-debug #'some-var)
+    (logbug.debug/wrap-with-log-debug #'some-var)
 
 Example log output:
 
@@ -26,17 +30,17 @@ Example log output:
 
 Example disable again:
 
-    (debug/unwrap-with-log-debug #'some-var)
+    (logbug.debug/unwrap-with-log-debug #'some-var)
 
 
 #### Wrap Functions for Reapplying last Arguments
 
 
-    (debug/wrap-with-remember-last-argument #'some-var)
+    (logbug.debug/wrap-with-remember-last-argument #'some-var)
 
-    (debug/get-last-argument #'some-var)
+    (logbug.debug/get-last-argument #'some-var)
 
-    (debug/re-apply-last-argument #'some-var)
+    (logbug.debug/re-apply-last-argument #'some-var)
 
 
 #### Wrap a Complete Namespace
@@ -59,6 +63,22 @@ The use of `require` will "remove" existing wrappers. The last arguments are
 stored within the `debug` ns and thus they survive `require` etc.
 
 
+
+## Breaking Changes from Version 4.x to 5.x
+
+The dependency on the deprecated
+[clj-logging-config](https://github.com/malcolmsparks/clj-logging-config)
+library has been removed. This removes in turn deeper dependencies and makes
+this library much more flexible to use with any logging framework as long as
+it works with the de facto standard
+[clojure/tools.logging](https://github.com/clojure/tools.logging/).
+
+The API has not changed but calls to `debug/debug-ns` are affected by this.
+`debug/debug-ns` did also set the level of the namespace to `DEBUG`. Since
+version 5.x the level must be changed explicitly if desired. How to do this
+depends on the chosen logging framework.
+
+
 ## Contributors
 
 * Thomas Schank, https://github.com/DrTom
@@ -67,7 +87,7 @@ stored within the `debug` ns and thus they survive `require` etc.
 
 ## License
 
-Copyright © 2015 Thomas Schank and contributors.
+Copyright © 2013 - 2020 Thomas Schank and contributors.
 
   clj-logbug may be used under the terms of either the
 
